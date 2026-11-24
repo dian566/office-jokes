@@ -1,31 +1,21 @@
 #!/usr/bin/env python3
-"""An office joke about an out-of-office reply, for make.fun."""
+"""Second office joke for make.fun: the second monitor."""
 
-from pathlib import Path
+# Bowo's pick: the ticket queue eats its own tail.
 
-# The joke is stored in two parts so each half sits on its own line;
-# joining them with an em dash reproduces the drafted sentence exactly.
-PARTS = (
-    "My out-of-office reply said 'gone fishing for a better job'",
-    "HR called it 'too honest'.",
-)
-SEPARATOR = " — "
-OUT_FILE = Path("/output/entry.txt")
+import os
+
+JOKE = "I asked IT for a second monitor. They gave me a second ticket and closed the first one as duplicate."
 
 
-def join_parts(parts, separator):
-    """Join the joke's parts with the separator between them."""
-    return separator.join(parts)
+def tell_joke() -> None:
+    """Write Bowo's IT joke to /output/entry.txt, nothing else."""
+    if len(JOKE) > 200 or not JOKE.strip():
+        raise ValueError("joke must be a non-empty line of at most 200 characters")
+    os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8") as handle:
+        handle.write(JOKE)
 
 
-def run():
-    joke = join_parts(PARTS, SEPARATOR)
-    if not joke:
-        raise SystemExit("joke came out empty")
-    if len(joke) > 200:
-        raise SystemExit(f"joke is {len(joke)} chars, over the 200 limit")
-    OUT_FILE.parent.mkdir(parents=True, exist_ok=True)
-    OUT_FILE.write_text(joke, encoding="utf-8")
-
-
-run()
+if __name__ == "__main__":  # run it
+    tell_joke()
